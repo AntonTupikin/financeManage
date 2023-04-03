@@ -11,7 +11,29 @@ import java.io.Serializable;
 
 public class Statistic implements Serializable {
     private MaxValues maxCategory;
+    private MaxValues maxCategoryForYear;
+    private MaxValues maxCategoryForMonth;
+    private MaxValues maxCategoryForDay;
 
+    public MaxValues getMaxCategory() {
+        return maxCategory;
+    }
+
+    public MaxValues getMaxCategoryForYear() {
+        return maxCategoryForYear;
+    }
+
+    public void setMaxCategoryForDay(MaxValues maxCategoryForDay) {
+        this.maxCategoryForDay = maxCategoryForDay;
+    }
+
+    public void setMaxCategoryForMonth(MaxValues maxCategoryForMonth) {
+        this.maxCategoryForMonth = maxCategoryForMonth;
+    }
+
+    public void setMaxCategoryForYear(MaxValues maxCategoryForYear) {
+        this.maxCategoryForYear = maxCategoryForYear;
+    }
 
     public void setMaxCategory(MaxValues maxCategory) {
         this.maxCategory = maxCategory;
@@ -36,7 +58,10 @@ public class Statistic implements Serializable {
 
     @Override
     public String toString() {
-        return maxCategory.toString() + "\n";
+        return maxCategory.toString() + "\n" +
+                maxCategoryForYear.toString() + "\n" +
+                maxCategoryForMonth.toString() + "\n" +
+                maxCategoryForDay.toString() + "\n";
     }
 
 
