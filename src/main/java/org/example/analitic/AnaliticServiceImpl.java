@@ -41,7 +41,7 @@ public class AnaliticServiceImpl implements AnaliticService {
         return maxCategoryYear;
     }
 
-    private Map.Entry<String, Integer> searchMax(Map<String, Integer> data) {
+    public Map.Entry<String, Integer> searchMax(Map<String, Integer> data) {
         Map.Entry<String, Integer> maxEntry = null;
         for (Map.Entry<String, Integer> entry : data.entrySet()) {
             if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
