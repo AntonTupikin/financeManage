@@ -2,8 +2,8 @@ package org.example;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.analitic.AnalyticService;
-import org.example.analitic.AnalyticServiceImpl;
+import org.example.analitic.AnaliticService;
+import org.example.analitic.AnaliticServiceImpl;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -52,8 +52,11 @@ public class Main {
     }
 
     public static void analyze(UserData userData, Purchase purchase) {
-        AnalyticService analyticService = new AnalyticServiceImpl();
-        userData.setMaxCategory(analyticService.searchMaxCategory(userData));
+        AnaliticService analiticService = new AnaliticServiceImpl();
+        userData.setMaxCategory(analiticService.searchMaxCategory(userData));
+        userData.setMaxCategoryForYear(analiticService.searchMaxCategoryForYear(userData, purchase.getYear()));
+        userData.setMaxCategoryForMonth(analiticService.searchMaxCategoryForMonth(userData, purchase.getMonth()));
+        userData.setMaxCategoryForDay(analiticService.searchMaxCategoryForDay(userData, purchase.getPurchaseDate()));
     }
 
     public static void saveData(UserData userData) {
@@ -85,8 +88,6 @@ public class Main {
         }
 
     }
-
-
 
 
 }
