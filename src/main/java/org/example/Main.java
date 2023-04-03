@@ -2,13 +2,10 @@ package org.example;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.analitic.AnalyticService;
-import org.example.analitic.AnalyticServiceImpl;
+import org.example.analitic.AnaliticService;
+import org.example.analitic.AnaliticServiceImpl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -20,7 +17,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        UserData userData = new UserData();
+        UserData userData = loadData();
 
 
         try (ServerSocket serverSocket = new ServerSocket(8989)) {
@@ -38,6 +35,7 @@ public class Main {
                     userData.addToData(purchase);
 
                     analyze(userData, purchase);
+                    saveData(userData);
 
                     GsonBuilder builder = new GsonBuilder();
                     Gson gson = builder.create();
@@ -54,11 +52,42 @@ public class Main {
     }
 
     public static void analyze(UserData userData, Purchase purchase) {
-        AnalyticService analyticService = new AnalyticServiceImpl();
-        userData.setMaxCategory(analyticService.searchMaxCategory(userData));
+        AnaliticService analiticService = new AnaliticServiceImpl();
+        userData.setMaxCategory(analiticService.searchMaxCategory(userData));
+        userData.setMaxCategoryForYear(analiticService.searchMaxCategoryForYear(userData, purchase.getYear()));
+        userData.setMaxCategoryForMonth(analiticService.searchMaxCategoryForMonth(userData, purchase.getMonth()));
+        userData.setMaxCategoryForDay(analiticService.searchMaxCategoryForDay(userData, purchase.getPurchaseDate()));
     }
 
+    public static void saveData(UserData userData) {
+        // откроем выходной поток для записи в файл
+        try (FileOutputStream fos = new FileOutputStream("data.bin");
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            // запишем экземпляр класса в файл
+            oos.writeObject(userData);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
+    public static UserData loadData() {
+        // откроем входной поток для чтения файла
+        UserData userData;
+        File file = new File("data.bin");
+        if (file.exists()) {
+            out.println("Корзина найдена");
+        }
+        try (FileInputStream fis = new FileInputStream("data.bin");
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            // десериализуем объект и скастим его в класс
+            return userData = (UserData) ois.readObject();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return userData = new UserData();
+        }
+
+    }
 
 
 }

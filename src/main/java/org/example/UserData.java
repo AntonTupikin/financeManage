@@ -3,10 +3,7 @@ package org.example;
 import org.example.statistic.Statistic;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserData implements Serializable {
     private Map<String, Integer> data = new HashMap<>();
@@ -22,6 +19,23 @@ public class UserData implements Serializable {
     public void setMaxCategory(MaxValues maxCategory) {
         statistic.setMaxCategory(maxCategory);
     }
+
+    public void setMaxCategoryForYear(MaxValues maxCategory) {
+        statistic.setMaxCategoryForYear(maxCategory);
+    }
+
+    public void setMaxCategoryForMonth(MaxValues maxCategory) {
+        statistic.setMaxCategoryForMonth(maxCategory);
+    }
+
+    public void setMaxCategoryForDay(MaxValues maxCategory) {
+        statistic.setMaxCategoryForDay(maxCategory);
+    }
+
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
+    }
+
 
     public void addToData(Purchase purchase) {
         this.purchases.add(purchase);
